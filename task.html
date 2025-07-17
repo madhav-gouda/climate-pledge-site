@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Action Pledge</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; background-color: #f4f4f4; color: #333; }
+    header { background: #008000; color: white; padding: 40px 20px; text-align: center; }
+    header h1 { font-size: 2.5em; }
+    header button { margin-top: 20px; padding: 10px 20px; background: #fff; color: #008000; border: none; cursor: pointer; font-weight: bold; }
+    section { padding: 40px 20px; max-width: 800px; margin: auto; background: white; margin-bottom: 20px; border-radius: 8px; }
+    .kpi-box { display: flex; justify-content: space-between; text-align: center; }
+    .kpi-box div { flex: 1; padding: 20px; background: #e8ffe8; border: 1px solid #ccc; margin: 5px; border-radius: 8px; }
+    form input, form select { width: 100%; padding: 10px; margin: 10px 0; }
+    form label { font-weight: bold; }
+    form .checkbox-group { display: flex; flex-direction: column; }
+    .certificate, .pledge-wall { margin-top: 20px; padding: 20px; border: 2px dashed #333; border-radius: 10px; background: #f0fff0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 10px; text-align: left; }
+    .privacy { font-size: 0.9em; color: #555; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Join the Climate Action Movement</h1>
+    <p>Take the pledge. Be the change. 🌍</p>
+    <button onclick="document.getElementById('pledge-form').scrollIntoView({behavior:'smooth'});">Take the Pledge</button>
+  </header>
+
+  <section id="kpis">
+    <h2>🌱 Live Climate Stats</h2>
+    <div class="kpi-box">
+      <div><strong>Target Pledges</strong><br>1,000,000</div>
+      <div><strong>Achieved</strong><br><span id="pledge-count">0</span></div>
+      <div><strong>Students</strong><br><span id="students">0</span></div>
+      <div><strong>Professionals</strong><br><span id="professionals">0</span></div>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>🌍 Why Take Climate Action?</h2>
+    <p>Every small action counts. Your individual steps, when combined with others, lead to a global wave of environmental change. Be a part of this movement today.</p>
+  </section>
+
+  <section id="pledge-form">
+    <h2>✍️ Pledge Form</h2>
+    <form id="form">
+      <label>Name*</label>
+      <input type="text" id="name" required>
+
+      <label>Email*</label>
+      <input type="email" id="email" required>
+
+      <label>Mobile Number*</label>
+      <input type="tel" id="mobile" required>
+
+      <label>State</label>
+      <input type="text" id="state">
+
+      <label>Profile Type</label>
+      <select id="profile">
+        <option value="Student">Student</option>
+        <option value="Working Professional">Working Professional</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Commitments (Choose as many as you like)</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" class="commitment"> Use reusable bags</label>
+        <label><input type="checkbox" class="commitment"> Turn off unused lights</label>
+        <label><input type="checkbox" class="commitment"> Plant a tree</label>
+        <label><input type="checkbox" class="commitment"> Reduce plastic use</label>
+        <label><input type="checkbox" class="commitment"> Use public transport</label>
+        <label><input type="checkbox" class="commitment"> Save water</label>
+      </div>
+
+      <p class="privacy">* Email and Mobile Number are required for verification and will not be shown publicly.</p>
+      <button type="submit">Submit Pledge</button>
+    </form>
+
+    <div class="certificate" id="certificate" style="display:none;"></div>
+  </section>
+
+  <section class="pledge-wall">
+    <h2>💚 Public Pledge Wall</h2>
+    <table id="wall">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Date</th>
+          <th>State</th>
+          <th>Profile</th>
+          <th>⭐</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+  const form = document.getElementById('form');
+  const wall = document.getElementById('wall').querySelector('tbody');
+  let pledgeCount = 0;
+  let studentCount = 0;
+  let professionalCount = 0;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const mobile = document.getElementById('mobile').value;
+    const state = document.getElementById('state').value;
+    const profile = document.getElementById('profile').value;
+
+    const commitments = Array.from(document.querySelectorAll('.commitment:checked'))
+      .map(cb => cb.nextSibling.textContent.trim());
+
+    const stars = '⭐'.repeat(commitments.length);
+    const date = new Date().toLocaleDateString();
+
+    // Update stats
+    pledgeCount++;
+    if (profile === "Student") studentCount++;
+    if (profile === "Working Professional") professionalCount++;
+
+    document.getElementById('pledge-count').textContent = pledgeCount;
+    document.getElementById('students').textContent = studentCount;
+    document.getElementById('professionals').textContent = professionalCount;
+
+    // Show certificate
+    const cert = document.getElementById('certificate');
+    cert.style.display = 'block';
+    cert.innerHTML = `<h3>🎉 Certificate of Commitment</h3>
+      <p><strong>${name}</strong><br>"Cool Enough to Care!"<br>${stars}</p>`;
+
+    // Add to public wall
+    const row = wall.insertRow();
+    row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
+
+    // ✅ Send data to Google Sheet using GET method
+    const params = new URLSearchParams({
+      name: name,
+      email: email,
+      mobile: mobile,
+      state: state,
+      profile: profile,
+      commitments: commitments.join(', ')
+    });
+
+    fetch('https://script.google.com/macros/s/AKfycbySIshEF_yAkAOA3eJXSLHzSfud2gpIJonzGQTMnVX5Oerye9o349oI1SDpNTFX5fefNQ/exec?' + params.toString())
+      .then(response => response.text())
+      .then(result => {
+        console.log('✅ Data sent to Google Sheet');
+        alert('✅ Pledge submitted and saved!');
+      })
+      .catch(error => {
+        console.error('❌ Submission failed:', error);
+        alert('❌ Submission failed. Please try again.');
+      });
+
+    form.reset();
+  });
+</script>
+
+
+</body>
+</html>
