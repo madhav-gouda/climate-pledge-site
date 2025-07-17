@@ -104,68 +104,65 @@
 
   <script>
   const form = document.getElementById('form');
-  const wall = document.getElementById('wall').querySelector('tbody');
-  let pledgeCount = 0;
-  let studentCount = 0;
-  let professionalCount = 0;
+    const wall = document.querySelector('#wall tbody');
+    let pledgeCount = 0;
+    let studentCount = 0;
+    let professionalCount = 0;
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const mobile = document.getElementById('mobile').value;
-    const state = document.getElementById('state').value;
-    const profile = document.getElementById('profile').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const mobile = document.getElementById('mobile').value;
+      const state = document.getElementById('state').value;
+      const profile = document.getElementById('profile').value;
+      const commitments = Array.from(document.querySelectorAll('.commitment:checked')).map(cb => cb.nextSibling.textContent.trim());
+      const stars = '⭐'.repeat(commitments.length);
+      const date = new Date().toLocaleDateString();
 
-    const commitments = Array.from(document.querySelectorAll('.commitment:checked'))
-      .map(cb => cb.nextSibling.textContent.trim());
+      // Update stats
+      pledgeCount++;
+      if (profile === "Student") studentCount++;
+      if (profile === "Working Professional") professionalCount++;
+      document.getElementById('pledge-count').textContent = pledgeCount;
+      document.getElementById('students').textContent = studentCount;
+      document.getElementById('professionals').textContent = professionalCount;
 
-    const stars = '⭐'.repeat(commitments.length);
-    const date = new Date().toLocaleDateString();
+      // Add to wall
+      const row = wall.insertRow();
+      row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
 
-    // Update stats
-    pledgeCount++;
-    if (profile === "Student") studentCount++;
-    if (profile === "Working Professional") professionalCount++;
+      // Show certificate
+      const cert = document.getElementById('certificate');
+      cert.style.display = 'block';
+      cert.innerHTML = `<h3>🎉 Certificate of Commitment</h3><p><strong>${name}</strong><br>"Cool Enough to Care!"<br>${stars}</p>`;
 
-    document.getElementById('pledge-count').textContent = pledgeCount;
-    document.getElementById('students').textContent = studentCount;
-    document.getElementById('professionals').textContent = professionalCount;
-
-    // Show certificate
-    const cert = document.getElementById('certificate');
-    cert.style.display = 'block';
-    cert.innerHTML = `<h3>🎉 Certificate of Commitment</h3>
-      <p><strong>${name}</strong><br>"Cool Enough to Care!"<br>${stars}</p>`;
-
-    // Add to public wall
-    const row = wall.insertRow();
-    row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
-
-    // ✅ Send data to Google Sheet using GET method
-    const params = new URLSearchParams({
-      name: name,
-      email: email,
-      mobile: mobile,
-      state: state,
-      profile: profile,
-      commitments: commitments.join(', ')
-    });
-
-    fetch('https://script.google.com/macros/s/AKfycbySIshEF_yAkAOA3eJXSLHzSfud2gpIJonzGQTMnVX5Oerye9o349oI1SDpNTFX5fefNQ/exec?' + params.toString())
-      .then(response => response.text())
-      .then(result => {
-        console.log('✅ Data sent to Google Sheet');
-        alert('✅ Pledge submitted and saved!');
-      })
-      .catch(error => {
-        console.error('❌ Submission failed:', error);
-        alert('❌ Submission failed. Please try again.');
+      // 🔄 Send to Google Sheets using POST
+      fetch("https://script.google.com/macros/s/AKfycbySIshEF_yAkAOA3eJXSLHzSfud2gpIJonzGQTMnVX5Oerye9o349oI1SDpNTFX5fefNQ/exec?", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          mobile,
+          state,
+          profile,
+          commitments: commitments.join(', ')
+        })
+      }).then(() => {
+        alert("✅ Pledge submitted successfully!");
+      }).catch(() => {
+        alert("❌ Submission failed. Please try again.");
       });
 
-    form.reset();
-  });
+      form.reset();
+    });
+
+      
 </script>
 
 
