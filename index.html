@@ -191,7 +191,7 @@
       commitments: commitments.join(', ')
     });
 
-    fetch('https://script.google.com/macros/s/AKfycbySIshEF_yAkAOA3eJXSLHzSfud2gpIJonzGQTMnVX5Oerye9o349oI1SDpNTFX5fefNQ/exec?' + params.toString())
+    fetch('https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec' + params.toString())
       .then(response => response.text())
       .then(result => {
         console.log('✅ Data sent to Google Sheet');
