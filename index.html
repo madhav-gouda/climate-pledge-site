@@ -36,17 +36,23 @@
     margin-bottom: 20px; 
     border-radius: 8px; }
   .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+}
 
-  .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-  }
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  min-width: 220px; /* Prevents label from being too narrow */
+}
 
   .kpi-box { 
     display: flex; 
@@ -135,12 +141,12 @@
 
       <label>Commitments (Choose as many as you like)</label>
       <div class="checkbox-group">
-        <label>Use reusable bags<input type="checkbox" class="commitment"></label>
-        <label>Turn off unused lights<input type="checkbox" class="commitment"></label>
-        <label>Plant a tree<input type="checkbox" class="commitment"></label>
-        <label>Reduce plastic use<input type="checkbox" class="commitment"></label>
-        <label>Use public transport<input type="checkbox" class="commitment"></label>
-        <label>Save water<input type="checkbox" class="commitment"></label>
+        <label>Use reusable bags <input type="checkbox" class="commitment"></label>
+        <label>Turn off unused lights <input type="checkbox" class="commitment"></label>
+        <label>Plant a tree <input type="checkbox" class="commitment"></label>
+        <label>Reduce plastic use <input type="checkbox" class="commitment"></label>
+        <label>Use public transport <input type="checkbox" class="commitment"></label>
+        <label>Save water <input type="checkbox" class="commitment"></label>
       </div>
 
       <p class="privacy">* Email and Mobile Number are required for verification and will not be shown publicly.</p>
