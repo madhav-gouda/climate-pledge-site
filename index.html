@@ -181,15 +181,7 @@
     const row = wall.insertRow();
     row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
 
-    // ✅ Send data to Google Sheet using GET method
-    const params = new URLSearchParams({
-      name: name,
-      email: email,
-      mobile: mobile, 
-      state: state,
-      profile: profile,
-      commitments: commitments.join(', ')
-    });
+    // ✅ Send data to Google Sheet using post method
 
     fetch('https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec', {
   method: 'POST',
@@ -214,9 +206,6 @@
   console.error('❌ Submission failed:', error);
   alert('❌ Submission failed. Please try again.');
 });
-
-      
-
     form.reset();
   });
   
