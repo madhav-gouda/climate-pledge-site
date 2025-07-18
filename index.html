@@ -181,7 +181,7 @@
     const row = wall.insertRow();
     row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
 
-    // ✅ Send data to Google Sheet using post method
+    // ✅ Send data to Google Sheet using get method
     const params = new URLSearchParams({
   name,
   email,
