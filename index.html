@@ -11,6 +11,38 @@
     header h1 { font-size: 2.5em; }
     header button { margin-top: 20px; padding: 10px 20px; background: #fff; color: #008000; border: none; cursor: pointer; font-weight: bold; }
     section { padding: 40px 20px; max-width: 800px; margin: auto; background: white; margin-bottom: 20px; border-radius: 8px; }
+    .checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.kpi-box div {
+  flex: 1;
+  padding: 20px;
+  background: #e8ffe8;
+  border: 1px solid #ccc;
+  margin: 5px;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-box div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+
     .kpi-box { display: flex; justify-content: space-between; text-align: center; }
     .kpi-box div { flex: 1; padding: 20px; background: #e8ffe8; border: 1px solid #ccc; margin: 5px; border-radius: 8px; }
     form input, form select { width: 100%; padding: 10px; margin: 10px 0; }
@@ -67,18 +99,22 @@
         <option value="Other">Other</option>
       </select>
 
-      <label>Commitments (Choose as many as you like)</label>
+      <label style="font-size: large;">Commitments (Choose as many as you like)</label>
       <div class="checkbox-group">
-        <label><input type="checkbox" class="commitment"> Use reusable bags</label>
-        <label><input type="checkbox" class="commitment"> Turn off unused lights</label>
-        <label><input type="checkbox" class="commitment"> Plant a tree</label>
-        <label><input type="checkbox" class="commitment"> Reduce plastic use</label>
-        <label><input type="checkbox" class="commitment"> Use public transport</label>
-        <label><input type="checkbox" class="commitment"> Save water</label>
+        <label><span>* Use reusable bags<input type="checkbox" class="commitment"></span></label>
+        <label><span>* Turn off unused lights<input type="checkbox" class="commitment"></span></label>
+        <label><span>* Plant a tree<input type="checkbox" class="commitment"></span></label>
+        <label><span>* Reduce plastic use<input type="checkbox" class="commitment"></span></label>
+        <label><span>* Use public transport<input type="checkbox" class="commitment"></span></label>
+        <label><span>* Save water<input type="checkbox" class="commitment"></span></label>
       </div>
 
+
+
       <p class="privacy">* Email and Mobile Number are required for verification and will not be shown publicly.</p>
-      <button type="submit">Submit Pledge</button>
+      <button type="submit" class="submit-btn">Submit Pledge</button>
+
+
     </form>
 
     <div class="certificate" id="certificate" style="display:none;"></div>
