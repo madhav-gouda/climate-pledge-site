@@ -155,7 +155,8 @@
     const profile = document.getElementById('profile').value;
 
     const commitments = Array.from(document.querySelectorAll('.commitment:checked'))
-      .map(cb => cb.nextSibling.textContent.trim());
+  .map(cb => cb.parentElement.querySelector('span').textContent.trim());
+
 
     const stars = '⭐'.repeat(commitments.length);
     const date = new Date().toLocaleDateString();
