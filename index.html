@@ -181,26 +181,30 @@
     const row = wall.insertRow();
     row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
 
-    // ✅ Send data to Google Sheet using get method
-    const params = new URLSearchParams({
-  name,
-  email,
-  mobile,
-  state,
-  profile,
-  commitments: commitments.join(', ')
-});
-
-fetch("https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec?" + params.toString())
-  .then(response => response.text())
-  .then(result => {
-    alert("✅ Pledge submitted and saved!");
-    console.log(result);
+    // ✅ Send data to Google Sheet using post method
+    fetch("https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name,
+    email,
+    mobile,
+    state,
+    profile,
+    commitments: commitments.join(', ')
   })
-  .catch(error => {
-    alert("❌ Submission failed. Please try again.");
-    console.error(error);
-  });
+})
+.then(response => response.text())
+.then(result => {
+  alert("✅ Pledge submitted and saved!");
+  console.log(result);
+})
+.catch(error => {
+  alert("❌ Submission failed. Please try again.");
+  console.error(error);
+});
 
     form.reset();
   });
