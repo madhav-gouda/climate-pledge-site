@@ -148,16 +148,14 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const mobile = document.getElementById('mobile').value;
-    const state = document.getElementById('state').value;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const state = document.getElementById('state').value.trim();
     const profile = document.getElementById('profile').value;
 
     const commitments = Array.from(document.querySelectorAll('.commitment:checked'))
-  .map(cb => cb.parentElement.textContent.trim()); 
-
-
+      .map(cb => cb.parentElement.textContent.trim());
 
     const stars = '⭐'.repeat(commitments.length);
     const date = new Date().toLocaleDateString();
@@ -181,33 +179,30 @@
     const row = wall.insertRow();
     row.innerHTML = `<td>${pledgeCount}</td><td>${name}</td><td>${date}</td><td>${state}</td><td>${profile}</td><td>${stars}</td>`;
 
-    // ✅ Send data to Google Sheet using post method
-    fetch("https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name,
-    email,
-    mobile,
-    state,
-    profile,
-    commitments: commitments.join(', ')
-  })
-})
-.then(response => response.text())
-.then(result => {
-  alert("✅ Pledge submitted and saved!");
-  console.log(result);
-})
-.catch(error => {
-  alert("❌ Submission failed. Please try again.");
-  console.error(error);
-});
+    // ✅ Send data to Google Sheet using GET method
+    const params = new URLSearchParams({
+      name,
+      email,
+      mobile,
+      state,
+      profile,
+      commitments: commitments.join(', ')
+    });
+
+    fetch("https://script.google.com/macros/s/AKfycbwHrAIt1ESH4HeM5pSDhfLgRQCQ4QL6eZs_Yl1GoknjIbzOJzEEcxNBOpgNLPy-VFO5/exec?" + params.toString())
+      .then(response => response.text())
+      .then(result => {
+        alert("✅ Pledge submitted and saved!");
+        console.log(result);
+      })
+      .catch(error => {
+        alert("❌ Submission failed. Please try again.");
+        console.error(error);
+      });
 
     form.reset();
   });
 </script>
+
 </body>
 </html>
