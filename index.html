@@ -101,12 +101,12 @@
 
       <label style="font-size: large;">Commitments (Choose as many as you like)</label>
       <div class="checkbox-group">
-        <label><span>* Use reusable bags<input type="checkbox" class="commitment"></span></label>
-        <label><span>* Turn off unused lights<input type="checkbox" class="commitment"></span></label>
-        <label><span>* Plant a tree<input type="checkbox" class="commitment"></span></label>
-        <label><span>* Reduce plastic use<input type="checkbox" class="commitment"></span></label>
-        <label><span>* Use public transport<input type="checkbox" class="commitment"></span></label>
-        <label><span>* Save water<input type="checkbox" class="commitment"></span></label>
+        <label>* Use reusable bags<input type="checkbox" class="commitment"></label>
+        <label>* Turn off unused lights<input type="checkbox" class="commitment"></label>
+        <label>* Plant a tree<input type="checkbox" class="commitment"></label>
+        <label>* Reduce plastic use<input type="checkbox" class="commitment"></label>
+        <label>* Use public transport<input type="checkbox" class="commitment"></label>
+        <label>* Save water<input type="checkbox" class="commitment"></label>
       </div>
 
 
@@ -155,7 +155,8 @@
     const profile = document.getElementById('profile').value;
 
     const commitments = Array.from(document.querySelectorAll('.commitment:checked'))
-  .map(cb => cb.parentElement.querySelector('span').textContent.trim());
+  .map(cb => cb.parentElement.textContent.trim());
+
 
 
     const stars = '⭐'.repeat(commitments.length);
